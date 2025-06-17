@@ -308,6 +308,7 @@ const EditProduct = () => {
               required
             />
           </div>
+
           <div className="col-md-3">
             <label className="form-label">Brand*</label>
             <input
@@ -319,15 +320,7 @@ const EditProduct = () => {
               onChange={handleChange}
               required
             />
-            <datalist id="doorOptions">
-              <option value="Single Door" />
-              <option value="Sliding brand" />
-              <option value="Mirror Door" />
-              <option value="Sliding Mirror Door" />
-              <option value="Double Door" />
-              <option value="Triple Door" />
-              <option value="Four Door" />
-            </datalist>
+
           </div>
           <div className="col-md-3">
             <label className="form-label">seller*</label>
