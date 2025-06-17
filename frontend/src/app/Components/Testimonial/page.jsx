@@ -15,7 +15,7 @@ const testimonials = [
     message: "Absolutely in love with my new sofa! The craftsmanship is top-notch, and it perfectly complements my living room. Very comfortable and sturdy  highly recommend!",
   },
   {
-    name: "Gaurov Panchal",
+    name: "Gaurav Panchal",
     role: "Bawana, Delhi",
     image: "/testimonial2.jpg",
     message: "Received my dining set within a week. The finish is premium, and the installation was quick. Worth every penny!",
@@ -30,7 +30,7 @@ const testimonials = [
     name: "Nitin Gupta",
     role: "Rohini, Delhi",
     image: "/profile.jpg",
-    message: "Clean UI and fast performance. I'm truly impressed.",
+    message: "Quality, comfort, and style—this site has it all. My guests keep asking where I bought my new sofa set.",
   }
 ];
 

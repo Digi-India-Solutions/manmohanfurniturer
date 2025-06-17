@@ -12,6 +12,7 @@ import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import { useRouter } from "next/navigation";
 
 
 
@@ -20,7 +21,7 @@ export default function ReelSection() {
   const videoRefs = useRef([]);
   const [expandedIndex, setExpandedIndex] = useState(null);
   const containerRef = useRef(null);
-
+const router = useRouter();
   const handleMouseEnter = (index) => {
     if (expandedIndex !== null) return; // Don't play on hover if a video is expanded
     videoRefs.current.forEach((video, i) => {
@@ -198,7 +199,7 @@ const handleAddToCart=(e,product)=>{
                   <p className="small mb-1">{item?.productId?.productName}</p>
                   <p className="fw-bold mb-1">₹{item?.productId?.finalPrice}</p>
                   <div className="d-flex align-items-center">
-                    <button
+                    {/* <button
                       className="btn btn-sm"
                       style={{ background: "var(--brown)", color: "white" }}
                       onClick={(e) => {
@@ -207,6 +208,16 @@ const handleAddToCart=(e,product)=>{
                       }}
                     >
                       Add to Cart
+                    </button> */}
+                     <button
+                      className="btn btn-sm"
+                      style={{ background: "var(--brown)", color: "white" }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                       router.push(`/Pages/products/${item?.productId?._id}`);
+                      }}
+                    >
+                     View Product
                     </button>
                     <i
                       className={`fa fa-eye ms-3 ${styles.cursorPointer}`}

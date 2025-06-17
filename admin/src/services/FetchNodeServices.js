@@ -1,5 +1,6 @@
 import axios from "axios";
-const serverURL = "https://api.manmohanfurniture.com";
+// const serverURL = "https://api.manmohanfurniture.com";
+const serverURL = "http://localhost:9000";
 
 const postData = async (url, body) => {
   try {
@@ -25,7 +26,7 @@ const getData = async (url) => {
 };
 
 const axiosInstance=axios.create({
-  baseURL: "https://api.manmohanfurniture.com",
+  baseURL: serverURL,
   headers:{
     "Content-Type": "application/json"
   },

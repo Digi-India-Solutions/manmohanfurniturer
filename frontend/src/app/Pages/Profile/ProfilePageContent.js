@@ -217,7 +217,7 @@ export default function ProfilePageContent() {
                     onChange={handleImageChange}
                   />
                 </div>
-                <h6 className="mb-0">Mukesh Mahar</h6>
+                <h6 className="mb-0">{name ?? "Name not found"}</h6>
                 <small>{email ?? "Email not found"}</small>
                 <br />
                 <small>{phone ?? "Phone not found"}</small>
