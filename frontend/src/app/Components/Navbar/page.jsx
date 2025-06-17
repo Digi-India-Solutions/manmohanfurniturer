@@ -135,7 +135,7 @@ const Navbar = () => {
         name: "Unnamed Category",
         _id: 1,
       };
-  
+
       const columns =
         categoryData.subCategories?.map((subCat) => {
           const products =
@@ -199,7 +199,7 @@ const Navbar = () => {
       const formattedContent = await formatToDropdownContent(
         response.data.data
       );
-    
+
       setDropdownContent(formattedContent);
     } catch (error) {
       console.log("Error fetching dropdown content:", error);
@@ -209,17 +209,17 @@ const Navbar = () => {
 
   const handleSearchKeyDown = (e) => {
     console.log("key", e);
-    
-  if (e.key === 'Enter') {
-    const query =searchValue.trim();
-    if (query) {
-      router.push(`/Pages/products/search?query=${query}`);
+
+    if (e.key === "Enter") {
+      const query = searchValue.trim();
+      if (query) {
+        router.push(`/Pages/products/search?query=${query}`);
+      }
     }
-  }
-};
-const handleSearchChange = (e) => {
-  router.push(`/Pages/products/search?query=${searchValue}`);
-}
+  };
+  const handleSearchChange = (e) => {
+    router.push(`/Pages/products/search?query=${searchValue}`);
+  };
   useEffect(() => {
     fetchDropdownContent();
     dispatch(verifyUser());
@@ -255,10 +255,10 @@ const handleSearchChange = (e) => {
             </div>
             <div className="right d-flex text-dark align-items-center gap-3 flex-wrap">
               <Link href={"tel:+91 9250 027 213"}>
-              <span>
-                <FaPhoneAlt className="fs-5 helpline" />  +91 9250 027 213
-              </span>
-</Link>
+                <span>
+                  <FaPhoneAlt className="fs-5 helpline" /> +91 9250 027 213
+                </span>
+              </Link>
               <Link className="nav-link" href="/Pages/franchise">
                 Become a Franchise
               </Link>
@@ -287,7 +287,11 @@ const handleSearchChange = (e) => {
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
               />
-              <span className="input-group-text bg-white" onClick={handleSearchChange} style={{ cursor: 'pointer' }}>
+              <span
+                className="input-group-text bg-white"
+                onClick={handleSearchChange}
+                style={{ cursor: "pointer" }}
+              >
                 <FaSearch className="helpline" />
               </span>
             </div>
@@ -370,9 +374,9 @@ const handleSearchChange = (e) => {
                   <Link
                     className="nav-link"
                     href={`/Pages/category/${generateSlug(
-                          dropdownContent[navItem].title,
-                          dropdownContent[navItem].link
-                        )}`}
+                      dropdownContent[navItem].title,
+                      dropdownContent[navItem].link
+                    )}`}
                   >
                     {navItem} <IoIosArrowDown />
                   </Link>
@@ -397,7 +401,7 @@ const handleSearchChange = (e) => {
                               {column.map((item, itemIndex) =>
                                 itemIndex === 0 ? (
                                   <Link
-                                  key={itemIndex}
+                                    key={itemIndex}
                                     href={`/Pages/products/subcategory/${generateSlug(
                                       item?.name,
                                       item?._id
@@ -435,7 +439,8 @@ const handleSearchChange = (e) => {
                   All Category
                 </Link>
               </li>
-              {dropdownContent &&
+              {/* it made it false to hide the products in dropdown */}
+              {false &&
                 Object.keys(dropdownContent).length > 0 &&
                 dropdownContent[Object.keys(dropdownContent)[0]]?.columns?.[0]
                   ?.slice(1, 4)
@@ -514,7 +519,7 @@ const handleSearchChange = (e) => {
         </div>
 
         {/* Second Row - Search */}
-        
+
         <div className="topbar-search">
           <input
             type="search"

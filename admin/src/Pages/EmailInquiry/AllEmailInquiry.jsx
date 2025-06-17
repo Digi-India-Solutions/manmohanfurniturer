@@ -54,7 +54,7 @@ const AllEmailInquiry = () => {
     <>
       <div className="bread">
         <div className="head">
-          <h4>Franchise Requests</h4>
+          <h4>All subscribe Inquiries</h4>
         </div>
       </div>
 

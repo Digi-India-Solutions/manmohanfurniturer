@@ -11,6 +11,12 @@ import axiosInstance, {
 import { Autocomplete, TextField } from "@mui/material";
 import "./product.css";
 import { fileLimit } from "../../services/fileLimit.js";
+import InfoIcon from "@mui/icons-material/Info";
+import StraightenIcon from "@mui/icons-material/Straighten";
+import ImageIcon from "@mui/icons-material/Image";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import DescriptionIcon from "@mui/icons-material/Description";
+import SettingsIcon from "@mui/icons-material/Settings";
 const AddProduct = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [categoryList, setCategoryList] = useState([]);
@@ -73,8 +79,8 @@ const AddProduct = () => {
       const res = await axiosInstance.get(
         `/api/v1/category/get-subcategories-by-category/${value}`
       );
-      console.log('res', res.data.data);
-      
+      console.log("res", res.data.data);
+
       setSubcategoryList(res?.data?.data);
     } catch (error) {
       console.log("fetching subcategory error", error);
@@ -177,7 +183,55 @@ const AddProduct = () => {
             <label className="form-label">Product Image*</label>
             <input type="file" className="form-control" multiple onChange={handleFileChange} required />
           </div> */}
+          <h3
+            style={{
+              fontSize: "20px",
+              fontWeight: "600",
+              margin: "30px 0 10px",
+              color: "#333",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+            }}
+          >
+            <InfoIcon style={{ color: "#795548" }} />
+            Product Information
+          </h3>
+          <div className="col-md-3">
+            <label className="form-label">Select Category</label>
+            <select
+              name="categoryId"
+              id=""
+              required
+              onChange={handleCategoryChange}
+              value={formData.categoryId}
+            >
+              <option value="">Select Category</option>
+              {categoryList.map((category) => (
+                <option key={category._id} value={category._id}>
+                  {category.categoryName}
+                </option>
+              ))}
+            </select>
+          </div>
 
+          <div className="col-md-3">
+            <label className="form-label">Select Sub Category</label>
+            <select
+              name="subCategory"
+              id=""
+              required
+              onChange={handleChange}
+              value={formData.subCategory}
+            >
+              <option value="">Select Sub Category</option>
+              {subcategoryList.map((subcategory) => (
+                <option key={subcategory._id} value={subcategory._id}>
+                  {subcategory.subCategoryName}
+                </option>
+              ))}
+            </select>
+          </div>
           <div className="col-md-3">
             <label className="form-label">Product Name*</label>
             <input
@@ -200,18 +254,6 @@ const AddProduct = () => {
               required
             />
           </div>
-          
-          <div className="col-md-3">
-            <label className="form-label">weight*</label>
-            <input
-              type="text"
-              name="weight"
-              className="form-control"
-              value={formData.weight}
-              onChange={handleChange}
-              required
-            />
-          </div>
 
           <div className="col-md-3">
             <label className="form-label">sku*</label>
@@ -220,28 +262,6 @@ const AddProduct = () => {
               name="sku"
               className="form-control"
               value={formData.sku}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="col-md-3">
-            <label className="form-label">dimensionsInch*</label>
-            <input
-              type="text"
-              name="dimensionsInch"
-              className="form-control"
-              value={formData.dimensionsInch}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="col-md-3">
-            <label className="form-label">dimensionsCm*</label>
-            <input
-              type="text"
-              name="dimensionsCm"
-              className="form-control"
-              value={formData.dimensionsCm}
               onChange={handleChange}
               required
             />
@@ -267,6 +287,64 @@ const AddProduct = () => {
               <option value="Four Door" />
             </datalist>
           </div>
+          <div className="col-md-3">
+            <label className="form-label">seller*</label>
+            <input
+              type="text"
+              name="seller"
+              className="form-control"
+              value={formData.seller}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <h3
+            style={{
+              fontSize: "20px",
+              fontWeight: "600",
+              margin: "30px 0 10px",
+              color: "#333",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+            }}
+          >
+            <StraightenIcon style={{ color: "#795548" }} />
+            Size Specifications
+          </h3>
+          <div className="col-md-3">
+            <label className="form-label">weight*</label>
+            <input
+              type="text"
+              name="weight"
+              className="form-control"
+              value={formData.weight}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="col-md-3">
+            <label className="form-label">Dimensions Inch*</label>
+            <input
+              type="text"
+              name="dimensionsInch"
+              className="form-control"
+              value={formData.dimensionsInch}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="col-md-3">
+            <label className="form-label">Dimensions Cm*</label>
+            <input
+              type="text"
+              name="dimensionsCm"
+              className="form-control"
+              value={formData.dimensionsCm}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
           {/* <div className="col-md-3">
             <label className="form-label">Select Type</label>
@@ -283,42 +361,20 @@ const AddProduct = () => {
               renderInput={(params) => <TextField {...params} label="Select Type" />}
             />
           </div> */}
-
-          <div className="col-md-3">
-            <label className="form-label">Select Category</label>
-            <select
-              name="categoryId"
-              id=""
-              required
-              onChange={handleCategoryChange}
-              value={formData.categoryId}
-            >
-              <option value="">Select Category</option>
-              {categoryList.map((category) => (
-                <option key={category._id} value={category._id}>
-                  {category.categoryName}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="col-md-3">
-            <label className="form-label">Select Sub Category</label>
-            <select
-              name="subCategory"
-              id=""
-              required
-              onChange={handleChange}
-              value={formData.subCategory}
-            >
-              <option value="">Select Category</option>
-              {subcategoryList.map((subcategory) => (
-                <option key={subcategory._id} value={subcategory._id}>
-                  {subcategory.subCategoryName}
-                </option>
-              ))}
-            </select>
-          </div>
-
+          <h3
+            style={{
+              fontSize: "20px",
+              fontWeight: "600",
+              margin: "30px 0 10px",
+              color: "#333",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+            }}
+          >
+            <ImageIcon style={{ color: "#795548" }} />
+            Product Images
+          </h3>
           <div className="col-md-3">
             <label className="form-label">Images</label>
             <input
@@ -328,18 +384,25 @@ const AddProduct = () => {
               className="form-control"
               onChange={handleFileChange}
               maxLength={4}
-            />
-          </div>
-
-          <div className="col-md-12">
-            <label className="form-label">Product Description*</label>
-            <JoditEditor
-              value={formData.description}
-              onChange={handleJoditChange}
+              required
             />
           </div>
 
           <div className="row">
+            <h3
+              style={{
+                fontSize: "20px",
+                fontWeight: "600",
+                margin: "30px 0 20px",
+                color: "#333",
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+              }}
+            >
+              <AttachMoneyIcon style={{ color: "#795548" }} />
+              Pricing Details
+            </h3>
             <div className="col-md-2">
               <label className="form-label">Price*</label>
               <input
@@ -388,6 +451,28 @@ const AddProduct = () => {
               />
             </div> */}
           </div>
+          <h3
+            style={{
+              fontSize: "20px",
+              fontWeight: "600",
+              margin: "30px 0 10px",
+              color: "#333",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+            }}
+          >
+            <DescriptionIcon style={{ color: "#795548" }} />
+            Product Descriptions & Specifications
+          </h3>
+          <div className="col-md-12">
+            <label className="form-label">Product Description*</label>
+            <JoditEditor
+              value={formData.description}
+              onChange={handleJoditChange}
+            />
+          </div>
+
           <div className="row" style={{ marginTop: "20px" }}>
             <div className="col-md-3">
               <label className="form-label">Specifications*</label>
@@ -401,7 +486,7 @@ const AddProduct = () => {
               />
             </div>
             <div className="col-md-3">
-              <label className="form-label">BrandCollectionOverview*</label>
+              <label className="form-label">Brand Collection Overview*</label>
               <input
                 type="text"
                 name="BrandCollectionOverview"
@@ -412,7 +497,7 @@ const AddProduct = () => {
               />
             </div>
             <div className="col-md-3">
-              <label className="form-label">CareMaintenance*</label>
+              <label className="form-label">Care Maintenance*</label>
               <input
                 type="text"
                 name="CareMaintenance"
@@ -422,17 +507,7 @@ const AddProduct = () => {
                 required
               />
             </div>
-            <div className="col-md-3">
-              <label className="form-label">seller*</label>
-              <input
-                type="text"
-                name="seller"
-                className="form-control"
-                value={formData.seller}
-                onChange={handleChange}
-                required
-              />
-            </div>
+
             <div className="col-md-3">
               <label className="form-label">Warranty*</label>
               <input
@@ -445,6 +520,20 @@ const AddProduct = () => {
               />
             </div>
           </div>
+          <h3
+            style={{
+              fontSize: "20px",
+              fontWeight: "600",
+              margin: "30px 0 10px",
+              color: "#333",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+            }}
+          >
+            <SettingsIcon style={{ color: "#795548" }} />
+            Product Settings
+          </h3>
           <div className="col-12" style={{ marginTop: "20px" }}>
             <div className="form-check">
               <input
@@ -452,7 +541,9 @@ const AddProduct = () => {
                 type="checkbox"
                 id="status"
                 checked={formData.isFeatured}
-                onChange={(e) => setFormData({ ...formData, isFeatured: e.target.checked })}
+                onChange={(e) =>
+                  setFormData({ ...formData, isFeatured: e.target.checked })
+                }
               />
               <label className="form-check-label" htmlFor="status">
                 Featured Product
@@ -460,11 +551,7 @@ const AddProduct = () => {
             </div>
           </div>
           <div className="col-md-12 mt-4 text-center">
-            <button
-              type="submit"
-              className="btn "
-              disabled={isLoading}
-            >
+            <button type="submit" className="btn " disabled={isLoading}>
               {isLoading ? "Submitting..." : "Submit"}
             </button>
           </div>

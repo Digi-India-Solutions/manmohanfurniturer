@@ -52,7 +52,7 @@ const AllInquiries = () => {
     <>
       <div className="bread">
         <div className="head">
-          <h4>All Inquiries</h4>
+          <h4>All Contact Us Inquiry</h4>
         </div>
       </div>
 

@@ -90,6 +90,8 @@ const imageArray = product?.images || [];
           <div key={i}>
             <Image
               src={img}
+              width={500}
+              height={500}
               className="img-fluid"
               style={{ height: "500px", objectFit: "cover", borderRadius: "10px", width: "100%" }}
               alt={`Main ${i}`}
