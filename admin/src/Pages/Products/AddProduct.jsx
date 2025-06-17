@@ -79,14 +79,14 @@ const AddProduct = () => {
       const res = await axiosInstance.get(
         `/api/v1/category/get-subcategories-by-category/${value}`
       );
-      console.log("res", res.data.data);
-
+    
       setSubcategoryList(res?.data?.data);
     } catch (error) {
       console.log("fetching subcategory error", error);
       toast.error("Error fetching subcategory data");
     }
   };
+
   const handleJoditChange = (newValue) => {
     setFormData((prev) => ({ ...prev, description: newValue }));
   };
@@ -95,7 +95,7 @@ const AddProduct = () => {
     e.preventDefault();
     setIsLoading(true);
     if (!formData.categoryId) {
-      toast.error("category is required");
+      toast.error("category Id is required");
       return;
     }
     if (!fileLimit(formData?.coverImage)) return;
@@ -277,15 +277,7 @@ const AddProduct = () => {
               onChange={handleChange}
               required
             />
-            <datalist id="doorOptions">
-              <option value="Single Door" />
-              <option value="Sliding brand" />
-              <option value="Mirror Door" />
-              <option value="Sliding Mirror Door" />
-              <option value="Double Door" />
-              <option value="Triple Door" />
-              <option value="Four Door" />
-            </datalist>
+         
           </div>
           <div className="col-md-3">
             <label className="form-label">seller*</label>

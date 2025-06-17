@@ -5,9 +5,8 @@ const serverURL = "https://api.manmohanfurniture.com";
 const postData = async (url, body) => {
   try {
     console.log(JSON.stringify(body));
-    
     var response = await axios.post(`${serverURL}/${url}`, body);
-    
+
     var data = response.data;
     return data;
   } catch (e) {
@@ -17,7 +16,9 @@ const postData = async (url, body) => {
 
 const getData = async (url) => {
   try {
-    var response = await axios.get(`${serverURL}/${url}`,{withCredentials:true});
+    var response = await axios.get(`${serverURL}/${url}`, {
+      withCredentials: true,
+    });
     var data = response.data;
     return data;
   } catch (e) {
@@ -25,13 +26,13 @@ const getData = async (url) => {
   }
 };
 
-const axiosInstance=axios.create({
+const axiosInstance = axios.create({
   baseURL: serverURL,
-  headers:{
-    "Content-Type": "application/json"
+  headers: {
+    "Content-Type": "application/json",
   },
-  withCredentials:true
-})
+  withCredentials: true,
+});
 
-export default axiosInstance
+export default axiosInstance;
 export { serverURL, postData, getData };
