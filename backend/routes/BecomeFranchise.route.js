@@ -1,6 +1,6 @@
 import {Router} from "express";
-import { createFranchise } from "../controllers/BecomeFranchise.controller.js";
-import { deleteFranchise, getAllFranchises } from "../controllers/BecomeFranchise.controller.js";
+import { createFranchise } from "../controllers/becomeFranchise.controller.js";
+import { deleteFranchise, getAllFranchises } from "../controllers/becomeFranchise.controller.js";
 import { verifyAdmin } from "../middlewares/adminVerification.middleware.js";
 
 const router=Router();
