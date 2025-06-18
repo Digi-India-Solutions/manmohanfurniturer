@@ -9,6 +9,7 @@ import axiosInstance, {
 import JoditEditor from "jodit-react";
 import { Autocomplete, TextField } from "@mui/material";
 import { fileLimit } from "../../services/fileLimit";
+import capitalizeFirstLetter from "../../services/capitalizeFirstLetter";
 
 const AddSubCategory = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -64,7 +65,7 @@ const AddSubCategory = () => {
     setIsLoading(true);
     if (!fileLimit(formData?.image)) return;
     const payload = new FormData();
-    payload.append("subCategoryName", formData.name);
+    payload.append("subCategoryName",capitalizeFirstLetter(formData.name));
     payload.append("image", formData.image);
     if (formData.collection)
       payload.append("collection", formData.collection);

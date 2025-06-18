@@ -84,7 +84,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
 
   const total = items.reduce((acc, item) => {
     const price = item?.finalPrice || item?.productId?.finalPrice || 0;
-    return acc + price * (item.quantity || 1);
+    return acc + price * (item?.quantity || 1);
   }, 0);
 
   return (

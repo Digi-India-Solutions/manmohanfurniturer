@@ -6,6 +6,7 @@ import axiosInstance, { getData, postData, serverURL } from "../../services/Fetc
 import JoditEditor from "jodit-react";
 import { Autocomplete, TextField } from "@mui/material";
 import { fileLimit } from "../../services/fileLimit";
+import capitalizeFirstLetter from "../../services/capitalizeFirstLetter";
 
 const EditCategory = () => {
   const { id } = useParams();
@@ -58,7 +59,7 @@ const EditCategory = () => {
     setBtnLoading(true);
 if(!fileLimit(formData?.image)) return;
     const payload = new FormData();
-    payload.append("categoryName", formData.name);
+    payload.append("categoryName", capitalizeFirstLetter(formData.name) );
     if (formData.image) {
       payload.append("image", formData.image);
     }

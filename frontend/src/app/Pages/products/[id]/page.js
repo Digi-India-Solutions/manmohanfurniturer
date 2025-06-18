@@ -1,9 +1,8 @@
-
 "use client";
-import Link from 'next/link';
-import React, { useEffect, useRef, useState } from 'react';
-import Slider from 'react-slick';
-import './productdetail.css';
+import Link from "next/link";
+import React, { useEffect, useRef, useState } from "react";
+import Slider from "react-slick";
+import "./productdetail.css";
 import { IoCallOutline } from "react-icons/io5";
 import { TbMessages } from "react-icons/tb";
 import Product from "@/app/Components/Products/product";
@@ -13,22 +12,20 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 // import axios from 'axios';
 
-
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { axiosInstance } from "@/app/utils/axiosInstance";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, AddToCartToServer } from "@/app/redux/slice/cartSlice";
 import { extractIdFromSlug, generateSlug } from "@/app/utils/generate-slug";
 
-
 // import image1 from "../../../Components/assets/about2.png"
 // import image2 from "../../../Components/assets/banner1.jpg"
 // import image3 from "../../../Components/assets/banner2.jpg"
 // import image4 from "../../../Components/assets/banner3.webp"
 // import image5 from "../../../Components/assets/about2.png"
-import Image from 'next/image';
-import ProductDetailsSkeleton from '@/app/utils/skeleton/ProductDetailsSkeleton';
+import Image from "next/image";
+import ProductDetailsSkeleton from "@/app/utils/skeleton/ProductDetailsSkeleton";
 
 const ImageCarousel = ({ product }) => {
   const mainSlider = useRef(null);
@@ -36,17 +33,12 @@ const ImageCarousel = ({ product }) => {
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
 
-
-
   useEffect(() => {
     setNav1(mainSlider.current);
     setNav2(thumbSlider.current);
   }, []);
 
-const imageArray = product?.images || [];
- 
-
-
+  const imageArray = product?.images || [];
 
   const mainSettings = {
     asNavFor: nav2,
@@ -84,7 +76,10 @@ const imageArray = product?.images || [];
   };
 
   return (
-    <div className="carousel-wrapper" style={{ maxWidth: "580px", margin: "auto", height: "650px" }}>
+    <div
+      className="carousel-wrapper"
+      style={{ maxWidth: "580px", margin: "auto", height: "650px" }}
+    >
       <Slider {...mainSettings}>
         {imageArray.map((img, i) => (
           <div key={i}>
@@ -93,7 +88,12 @@ const imageArray = product?.images || [];
               width={500}
               height={500}
               className="img-fluid"
-              style={{ height: "500px", objectFit: "cover", borderRadius: "10px", width: "100%" }}
+              style={{
+                height: "500px",
+                objectFit: "cover",
+                borderRadius: "10px",
+                width: "100%",
+              }}
               alt={`Main ${i}`}
             />
           </div>
@@ -108,7 +108,13 @@ const imageArray = product?.images || [];
                 <Image
                   src={img}
                   className="img-fluid"
-                  style={{ padding: 5, height: 100, objectFit: "cover", borderRadius: "5px", width: "100%" }}
+                  style={{
+                    padding: 5,
+                    height: 100,
+                    objectFit: "cover",
+                    borderRadius: "5px",
+                    width: "100%",
+                  }}
                   alt={`Thumb ${i}`}
                 />
               </div>
@@ -121,17 +127,17 @@ const imageArray = product?.images || [];
 };
 
 const Page = () => {
-  
-    const [product, setProduct] = useState(null);
-    const [loading,setLoading]=useState(false)
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [faqData, setFaqData] = useState([]);
   const { id } = useParams();
   const dispatch = useDispatch();
+  const router = useRouter();
   const fetchProductDetails = async () => {
-   const productId= extractIdFromSlug(id);
+    const productId = extractIdFromSlug(id);
     try {
-      setLoading(true)
+      setLoading(true);
       const response = await axiosInstance.get(
         `/api/v1/product/get-single-product/${productId}`
       );
@@ -159,9 +165,9 @@ const Page = () => {
           answer: data?.Warranty,
         },
       ]);
-      setLoading(false)
+      setLoading(false);
     } catch (error) {
-      setLoading(false)
+      setLoading(false);
 
       console.log("product details", error.message);
       toast.error("Failed to fetch product details. Please try again.");
@@ -184,18 +190,18 @@ const Page = () => {
   const { user } = useSelector((state) => state.auth);
   const handleAddToCart = () => {
     let quantity = 1;
-  
+
     if (quantity > product.stock) {
       toast.error("Out of stock");
       return;
     }
 
-    if(user?.email){
-      dispatch(AddToCartToServer({productId:product._id,quantity}))
-      toast.success("Product added to cart",{
+    if (user?.email) {
+      dispatch(AddToCartToServer({ productId: product._id, quantity }));
+      toast.success("Product added to cart", {
         position: "bottom-right",
-      })}
-      else{
+      });
+    } else {
       dispatch(
         addToCart({
           productId: product._id,
@@ -215,6 +221,10 @@ const Page = () => {
     }
   };
 
+  const handleBuyNow = () => {
+    handleAddToCart();
+    router.push("/Pages/Checkout");
+  };
   useEffect(() => {
     fetchProductDetails();
   }, [id]);
@@ -227,9 +237,7 @@ const Page = () => {
     }
   }, [id, product]);
 
-
-if(loading) return <ProductDetailsSkeleton/>
-
+  if (loading) return <ProductDetailsSkeleton />;
 
   return (
     <>
@@ -237,83 +245,109 @@ if(loading) return <ProductDetailsSkeleton/>
         <div className="container">
           <ol className="breadcrumb align-items-center">
             <li className="breadcrumb-item">
-              <Link href="/"><span className="breadcrumb-link">Home</span></Link>
+              <Link href="/">
+                <span className="breadcrumb-link">Home</span>
+              </Link>
             </li>
+            {product?.category?.categoryName && (
+              <li className="breadcrumb-item">
+                <Link
+                  href={`/Pages/category/${generateSlug(
+                    product?.category?.categoryName,
+                    product?.category?._id
+                  )}`}
+                >
+                  <span className="breadcrumb-link">
+                    {product?.category?.categoryName}
+                  </span>
+                </Link>
+              </li>
+            )}
+
             <li className="breadcrumb-item">
-              <Link href={`/Pages/category/${generateSlug(product?.category?.categoryName, product?.category?._id)}`}><span className="breadcrumb-link">{product?.category?.categoryName}</span></Link>
+              <Link
+                href={`/Pages/products/subcategory/${generateSlug(
+                  product?.subCategory?.subCategoryName,
+                  product?.subCategory?._id
+                )}`}
+              >
+                <span className="breadcrumb-link">
+                  {product?.subCategory?.subCategoryName}
+                </span>
+              </Link>
             </li>
-            <li className="breadcrumb-item">
-              <Link href={`/Pages/products/subcategory/${generateSlug(product?.subCategory?.subCategoryName, product?.subCategory?._id)}`}><span className="breadcrumb-link">{product?.subCategory?.subCategoryName}</span></Link>
+            <li className="breadcrumb-item active" aria-current="page">
+              Product Details
             </li>
-            <li className="breadcrumb-item active" aria-current="page">Product Details</li>
           </ol>
         </div>
       </nav>
 
-      <div className='product-details'>
-        <div className='container'>
-          <div className='row'>
+      <div className="product-details">
+        <div className="container">
+          <div className="row">
             <div className="col-md-6">
-
               {product && <ImageCarousel product={product} />}
             </div>
 
-            <div className='col-md-6'>
+            <div className="col-md-6">
               {product && (
-                <div className='product-details-content'>
-                  <h2 className='details-heading Producttitle'> {product?.productName}</h2>
+                <div className="product-details-content">
+                  <h2 className="details-heading Producttitle">
+                    {" "}
+                    {product?.productName}
+                  </h2>
                   <div
                     className="detail-description"
                     dangerouslySetInnerHTML={{ __html: product?.description }}
                   ></div>
-                 
-                  <div className='price-section'>
-                    <p className='final-price'> ₹{product?.finalPrice}</p>
-                    <p className='price'><del> ₹{product?.price}</del></p>
-                    <p className='discount'>{product?.discount}% OFF</p>
+
+                  <div className="price-section">
+                    <p className="final-price"> ₹{product?.finalPrice}</p>
+                    <p className="price">
+                      <del> ₹{product?.price}</del>
+                    </p>
+                    <p className="discount">{product?.discount}% OFF</p>
                   </div>
-                  <div className='product-overview'>
+                  <div className="product-overview">
                     <h3>Product Overview</h3>
                     <hr />
                     <ul className="overview-list">
-                       <li>
-                         <strong>Material :</strong>{" "}
-                         <span className="text-info">{product?.material}</span>
-                       </li>
-                       <li>
-                         <strong>WEIGHT :</strong>
-                         {product?.weight}
-                       </li>
-                       <li>
-                         <strong>Dimensions(inch) :</strong>{" "}
-                         {product?.dimensionsInch}
-                       </li>
-                       <li>
-                         <strong>Dimensions(Cm):</strong>
-                         {product?.dimensionsCm}
-                       </li>
-                       <li>
-                         <strong>Brand :</strong> {product?.brand}
-                       </li>
-                       {/* <li>
+                      <li>
+                        <strong>Material :</strong>{" "}
+                        <span className="text-info">{product?.material}</span>
+                      </li>
+                      <li>
+                        <strong>WEIGHT :</strong>
+                        {product?.weight}
+                      </li>
+                      <li>
+                        <strong>Dimensions(inch) :</strong>{" "}
+                        {product?.dimensionsInch}
+                      </li>
+                      <li>
+                        <strong>Dimensions(Cm):</strong>
+                        {product?.dimensionsCm}
+                      </li>
+                      <li>
+                        <strong>Brand :</strong> {product?.brand}
+                      </li>
+                      {/* <li>
                          <strong>SKU :</strong>
                          {product?.sku}
                        </li> */}
-                       {/* <li>
+                      {/* <li>
                          <strong>Stock :</strong>
                          {product?.stock === 0 ? "Out of Stock" : product?.stock}
                        </li> */}
-                     </ul>
-                      <div className="product-details-cart-button">
-                       {" "}
-                       <button
-                        className=" cartbtn "
-                        onClick={ handleAddToCart}
-                      >
+                    </ul>
+                    <div className="product-details-cart-button">
+                      {" "}
+                      <button className=" cartbtn " onClick={handleAddToCart}>
                         {" "}
                         <FaCartArrowDown className="fs-3" /> ADD TO CART
                       </button>
-                      <button className="buy-now">
+                      <button className="buy-now" onClick={handleBuyNow}>
                         {" "}
                         <MdElectricBolt className="fs-3" /> Buy Now
                       </button>
@@ -328,7 +362,9 @@ if(loading) return <ProductDetailsSkeleton/>
                     <div className={`accordion-item accordionItem`} key={index}>
                       <h2 className="accordion-header" id={`faq${index}`}>
                         <button
-                          className={`accordion-button ${index !== 0 ? "collapsed" : ""} accordionButton`}
+                          className={`accordion-button ${
+                            index !== 0 ? "collapsed" : ""
+                          } accordionButton`}
                           type="button"
                           data-bs-toggle="collapse"
                           data-bs-target={`#collapse${index}`}
@@ -340,7 +376,9 @@ if(loading) return <ProductDetailsSkeleton/>
                       </h2>
                       <div
                         id={`collapse${index}`}
-                        className={`accordion-collapse collapse ${index === 0 ? "" : ""}`}
+                        className={`accordion-collapse collapse ${
+                          index === 0 ? "" : ""
+                        }`}
                         aria-labelledby={`faq${index}`}
                         data-bs-parent="#faqAccordion"
                       >
@@ -356,23 +394,25 @@ if(loading) return <ProductDetailsSkeleton/>
           </div>
 
           <hr />
-          <div className='container'>
-            <div className='cal-contact-section'>
+          <div className="container">
+            <div className="cal-contact-section">
               <h2>Need Help in Buying?</h2>
-              <Link className='request-call' href="tel:+919319846114">Request A Call Back</Link>
-              <p className='textOr'>Or</p>
-              <div className='call-main'>
-                <div className='calling-main'>
-                  <IoCallOutline className='icn' />
-                  <div className='mobilenotshow'>
-                    <p >Call Us</p>
+              <Link className="request-call" href="tel:+919319846114">
+                Request A Call Back
+              </Link>
+              <p className="textOr">Or</p>
+              <div className="call-main">
+                <div className="calling-main">
+                  <IoCallOutline className="icn" />
+                  <div className="mobilenotshow">
+                    <p>Call Us</p>
                     <Link href="tel:+919319846114">+91 9319846114</Link>
                   </div>
                 </div>
-                <p className='call-line'>|</p>
-                <div className='calling-main'>
-                  <TbMessages className='icn' />
-                  <div className='mobilenotshow'>
+                <p className="call-line">|</p>
+                <div className="calling-main">
+                  <TbMessages className="icn" />
+                  <div className="mobilenotshow">
                     <p>Live Chat</p>
                     <Link href="#">Talk To Expert</Link>
                   </div>
@@ -380,7 +420,7 @@ if(loading) return <ProductDetailsSkeleton/>
               </div>
             </div>
           </div>
-          { relatedProducts && relatedProducts.length > 0 && (
+          {relatedProducts && relatedProducts.length > 0 && (
             <div className="mt-5">
               <Product products={relatedProducts} />
             </div>
@@ -392,36 +432,6 @@ if(loading) return <ProductDetailsSkeleton/>
 };
 
 export default Page;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // "use client";
 // import Link from "next/link";
@@ -588,7 +598,7 @@ export default Page;
 //   const { user } = useSelector((state) => state.auth);
 //   const handleAddToCart = () => {
 //     let quantity = 1;
-  
+
 //     if (quantity > product.stock) {
 //       toast.error("Out of stock");
 //       return;
