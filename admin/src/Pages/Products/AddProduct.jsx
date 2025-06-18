@@ -17,6 +17,7 @@ import ImageIcon from "@mui/icons-material/Image";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import DescriptionIcon from "@mui/icons-material/Description";
 import SettingsIcon from "@mui/icons-material/Settings";
+import capitalizeFirstLetter from "../../services/capitalizeFirstLetter.js";
 const AddProduct = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [categoryList, setCategoryList] = useState([]);
@@ -30,7 +31,7 @@ const AddProduct = () => {
     finalPrice: 0,
     brand: "",
     description: "",
-    isFeatured: "",
+    isFeatured: false,
     material: "",
     weight: "",
     sku: "",
@@ -79,7 +80,7 @@ const AddProduct = () => {
       const res = await axiosInstance.get(
         `/api/v1/category/get-subcategories-by-category/${value}`
       );
-    
+
       setSubcategoryList(res?.data?.data);
     } catch (error) {
       console.log("fetching subcategory error", error);
@@ -114,6 +115,8 @@ const AddProduct = () => {
         value.forEach((item) => {
           payload.append(key, item);
         });
+      } else if (key === "productName") {
+        payload.append("productName", capitalizeFirstLetter(value));
       } else {
         payload.append(key, value);
       }
@@ -277,7 +280,6 @@ const AddProduct = () => {
               onChange={handleChange}
               required
             />
-         
           </div>
           <div className="col-md-3">
             <label className="form-label">seller*</label>

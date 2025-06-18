@@ -13,6 +13,7 @@ import ImageIcon from "@mui/icons-material/Image";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import DescriptionIcon from "@mui/icons-material/Description";
 import SettingsIcon from "@mui/icons-material/Settings";
+import capitalizeFirstLetter from "../../services/capitalizeFirstLetter.js";
 const EditProduct = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [categoryList, setCategoryList] = useState([]);
@@ -26,7 +27,7 @@ const EditProduct = () => {
     finalPrice: 0,
     brand: "",
     description: "",
-    isFeatured: "",
+    isFeatured: false,
     material: "",
     weight: "",
     sku: "",
@@ -156,7 +157,11 @@ const EditProduct = () => {
         value.forEach((item) => {
           payload.append(key, item);
         });
-      } else {
+      } 
+       else if (key === "productName") {
+        payload.append("productName", capitalizeFirstLetter(value));
+      }
+      else {
         payload.append(key, value);
       }
     });

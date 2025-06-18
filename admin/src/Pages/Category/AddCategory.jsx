@@ -6,6 +6,7 @@ import axiosInstance, { getData, postData } from "../../services/FetchNodeServic
 import JoditEditor from "jodit-react";
 import { Autocomplete, TextField } from "@mui/material";
 import { fileLimit } from "../../services/fileLimit";
+import capitalizeFirstLetter from "../../services/capitalizeFirstLetter";
 
 const AddCategory = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -55,7 +56,7 @@ const AddCategory = () => {
     setIsLoading(true);
 if(!fileLimit(formData?.image)) return;
     const uploadData = new FormData();
-    uploadData.append("categoryName", formData.name);
+    uploadData.append("categoryName",capitalizeFirstLetter(formData.name));
     uploadData.append("image", formData.image);
     uploadData.append("isCollection", formData.status);
   

@@ -4,6 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axiosInstance from "../../services/FetchNodeServices";
 import { fileLimit } from "../../services/fileLimit";
+import capitalizeFirstLetter from "../../services/capitalizeFirstLetter";
 
 const EditSubCategory = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -21,8 +22,10 @@ const EditSubCategory = () => {
 
   const fetchSubCategoryDetails = async () => {
     try {
-      const res = await axiosInstance.get(`/api/v1/sub-category/get-single-sub-category/${id}`);
-    
+      const res = await axiosInstance.get(
+        `/api/v1/sub-category/get-single-sub-category/${id}`
+      );
+
       if (res.status === 200) {
         const data = res.data.data;
         setFormData({
@@ -40,7 +43,9 @@ const EditSubCategory = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axiosInstance.get("/api/v1/category/get-all-categories");
+      const response = await axiosInstance.get(
+        "/api/v1/category/get-all-categories"
+      );
       if (response.status === 200) {
         setCategories(response.data.data);
       }
@@ -66,18 +71,22 @@ const EditSubCategory = () => {
     e.preventDefault();
     setIsLoading(true);
     const payload = new FormData();
-    payload.append("subCategoryName", formData.name);
+    payload.append("subCategoryName", capitalizeFirstLetter(formData.name));
     payload.append("isCollection", formData.status);
     payload.append("category", formData.category);
     if (formData.image) payload.append("image", formData.image);
     if (formData.collection) payload.append("collection", formData.collection);
 
     try {
-      const res = await axiosInstance.put(`/api/v1/sub-category/update-sub-category/${id}`, payload, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const res = await axiosInstance.put(
+        `/api/v1/sub-category/update-sub-category/${id}`,
+        payload,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       if (res.status === 200) {
         toast.success("SubCategory updated successfully");
         navigate("/all-subCategory");

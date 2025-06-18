@@ -74,7 +74,7 @@ const Cart = () => {
     const mrp = items.reduce(
       (acc, item) =>{
        const price = item.price ? item.price : item.productId.price;
-        return acc + price * item.quantity; 
+        return acc + price * item.quantity ; 
       } ,
       0
     );
